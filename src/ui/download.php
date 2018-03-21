@@ -27,12 +27,18 @@ if ( isset($_GET["id"]) && is_numeric($_GET["id"]) ) {
 		
 		$file = $row['DIR'].'/'.$row['FILE'];
 		if (file_exists($file)) {
+			// Close the session to prevent a long download from
+			// locking the user session
+			session_write_close();
+
+			// Clear any output buffers and stop buffering
+			// to prevent memory errors when outputting the file
+			while (ob_get_level()) ob_end_clean();
 			header('Content-Type: application/octet-stream');
 			header('Content-Disposition: attachment; filename='.basename($row['FILE']));
 			header('Cache-Control: no-cache');
 			header('Content-Length:'.filesize($file));
-			ob_clean();
-			flush();
+
 			readfile($file);
 			exit;
 		} else {
