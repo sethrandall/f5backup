@@ -47,7 +47,7 @@ EOD;
       <a href="settings.php">Settings</a> 
    </div>
    <div id="pagelet_body">
-<?
+<?php
 $contents .= "   </table>\n";
 
 echo $contents;

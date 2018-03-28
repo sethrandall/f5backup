@@ -1,4 +1,4 @@
-<?
+<?php
 require_once '/opt/f5backup/ui/include/PestJSON.php';
 
 $updates = '';

@@ -27,7 +27,7 @@ include("include/menu.php");
 		<a href="template.php">Template</a>  
 	</div>
 	<div id="pagelet_body">
-<?
+<?php
 echo $contents;
 
 echo "\t</div>\n";

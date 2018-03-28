@@ -1,4 +1,4 @@
-<?
+<?php
 // Do passwords match ?
 if ( $_POST["password"] == $_POST["password2"] ) {
 	// Passwords can not contain special characters 

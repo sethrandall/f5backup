@@ -73,7 +73,7 @@ EOD;
 		<a href="settings.php">Settings</a> > Admin Password
 	</div>
 	<div id="pagelet_body">
-<?
+<?php
 
 echo $contents;
 

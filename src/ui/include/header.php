@@ -1,4 +1,4 @@
-<?
+<?php
 require_once '/opt/f5backup/ui/include/PestJSON.php';
 // Internal web service connect
 function webcheck () {
@@ -37,11 +37,11 @@ foreach ($sth->fetchAll() as $role) {
 	<td class="header" colspan="2">
 		<div id="title"><a href="/">Config Backup for F5</a></div>
 		<div id="logout"><a href="/logout.php">Log out</a></div>
-		<div id="status"><a href="/status.php"><?= webcheck()?></a></div>
-		<div id="user">Username: <?= $_SESSION['user'] ?></div>
-		<div id="role">User Role: <?= $rolearray[$_SESSION['role']] ?></div>
-		<div id="ip">User IP: <?= $_SERVER['REMOTE_ADDR'] ?></div>
-		<div id="date">Date: <?= date('Y-m-d',time()) ?></div>
-		<div id="time">Time: <?= date('H:i',time()) ?></div>
+		<div id="status"><a href="/status.php"><?php echo  webcheck()?></a></div>
+		<div id="user">Username: <?php echo  $_SESSION['user'] ?></div>
+		<div id="role">User Role: <?php echo  $rolearray[$_SESSION['role']] ?></div>
+		<div id="ip">User IP: <?php echo  $_SERVER['REMOTE_ADDR'] ?></div>
+		<div id="date">Date: <?php echo  date('Y-m-d',time()) ?></div>
+		<div id="time">Time: <?php echo  date('H:i',time()) ?></div>
 	</td>
 </tr>

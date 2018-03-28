@@ -88,10 +88,10 @@ EOD;
 ?>
 	<div id="pagelet_title">
 		<a href="jobs.php">Backup Jobs</a>
-		<? if ( ! $main_page ) {echo "> $date";} ?>
+		<?php if ( ! $main_page ) {echo "> $date";} ?>
 	</div>
 	<div id="pagelet_body">
-<?
+<?php
 echo $contents;
 
 echo "</div>";

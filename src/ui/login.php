@@ -157,7 +157,7 @@ if (isset($login) ) {
    </div>
    <div id="body">
       <div id="form">
-         <form action="login.php<?=$URL?>" method="post">
+         <form action="login.php<?php echo $URL?>" method="post">
          <p>Username<br />
          <input type="text" name="username" class="input" autocomplete="off" maxlength="20">
          </p>
@@ -166,20 +166,20 @@ if (isset($login) ) {
          </p>
          <input type="submit" name="submit" value="Log In">
          </form>
-<? // Error messages
+<?php // Error messages
 if (isset($error)) { 
 ?>
-         <p id="error"><?= $error ?></p>
-<?}?>
+         <p id="error"><?php echo  $error ?></p>
+<?php } ?>
       </div>
       <div id="message">
-         <div style="padding-left:10px"><pre><?= $motd ?></pre></div>
+         <div style="padding-left:10px"><pre><?php echo  $motd ?></pre></div>
       </div>
    </div>
 </div>
 </body>
 </html>
-<?
+<?php
 };
 
 // Close DB

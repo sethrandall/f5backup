@@ -39,10 +39,10 @@ switch ( $_GET["page"] ) {
 // Page HTML
 ?>
    <div id="pagelet_title">
-      <a href="devices.php">F5 Devices</a> <? if ( isset($title) ) {echo "> $title";} ?> 
+      <a href="devices.php">F5 Devices</a> <?php if ( isset($title) ) {echo "> $title";} ?> 
    </div>
    <div id="pagelet_body">
-<?
+<?php
 echo $contents;
 
 echo "</div>";

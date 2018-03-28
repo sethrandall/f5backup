@@ -105,7 +105,7 @@ EOD;
 		<a href="settings.php">Settings</a> > Backup Settings 
 	</div>
 	<div id="pagelet_body">
-<?
+<?php
 echo $contents;
 
 echo "</div>";

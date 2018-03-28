@@ -96,10 +96,10 @@ EOD;
 // Page HTML
 ?>
 	<div id="pagelet_title">
-		<a href="settings.php">Settings</a> <? if ( isset($title) ) {echo "> $title";} ?> 
+		<a href="settings.php">Settings</a> <?php if ( isset($title) ) {echo "> $title";} ?> 
 	</div>
 	<div id="pagelet_body">
-<?
+<?php
 echo $contents;
 
 echo "</div>";

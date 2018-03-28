@@ -67,9 +67,9 @@ if ( isset($_GET['page'])) {
    <div id="pagelet_title">
       <a href="settings.php">Settings</a> > 
       <a href="authgrp.php"> Auth Groups</a> >
-      <?= " $title" ?>
+      <?php echo  " $title" ?>
    </div>
-<?
+<?php
 
 echo $contents;
 

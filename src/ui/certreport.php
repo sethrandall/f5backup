@@ -222,7 +222,7 @@ EOD;
       <a href="settings.php">Settings</a> > Certificate Reports
    </div>
    <div id="pagelet_body">
-<?
+<?php
 echo $contents;
 
 echo "</div>";

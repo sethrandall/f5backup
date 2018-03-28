@@ -106,7 +106,7 @@ EOD;
 		<a href="settings.php">Settings</a> > General Settings
 	</div>
 	<div id="pagelet_body">
-<?
+<?php
 echo $contents."\n";
 
 echo "</div>";

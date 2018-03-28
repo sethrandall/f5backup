@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 if(!(isset( $_SESSION['active']))) {
 //If user does not have active session then logout user

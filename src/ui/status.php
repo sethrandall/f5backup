@@ -32,7 +32,7 @@ function webstatus () {
 	<div id="pagelet_title">
 		Status
 	</div>
-<?
+<?php
 echo webstatus();
 include("include/footer.php");
 ?>
