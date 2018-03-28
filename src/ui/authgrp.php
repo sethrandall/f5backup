@@ -32,7 +32,6 @@ if ( isset($_GET["id"]) ) {
 
 	// Build site body here and put in var $contents
 	$contents = <<<EOD
-	$message
 	<form action="authgrpmod.php" method="get">
 	<table class="pagelet_table">
 	<tr class="pglt_tb_hdr">
