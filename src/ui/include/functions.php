@@ -1,7 +1,6 @@
 <?php
 // Functions file
 
-
 // check for bad characters 
 function bad_chars ($input) {
 	if ( preg_match('/([\'\"%=;<>\s]|--)/', $input) ) {
@@ -57,7 +56,7 @@ function password_func ($password,$password2) {
 	if ( ! (strlen($password) >= 7 &&  preg_match('/^(?=.*[a-z])(?=.*[A-Z])((?=.*\d)|(?=.*\W)).+$/',$password)) ) {
 		$ERROR = "Password does not meet complexity requirements: <br />\n";
 		$ERROR .= "Minimum 7 characters with at least one capital letter, one lowercase letter";
-		$ERROR .= " and one number or one approved special character. $test\n";
+		$ERROR .= " and one number or one approved special character.\n";
 		throw new Exception("$ERROR");
 	};
 			
