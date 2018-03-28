@@ -1,18 +1,6 @@
 <?php
 $id = $_GET["id"];
 
-// Build role select options
-function roleselect ($rarray,$selected) {
-	$output = '';
-	foreach ($rarray as $key=>$value) {
-		$select = '';
-		// Make the users current role selected
-		if ( $key == $selected ){$select = 'selected';} ;
-		$output .= "<option value=\"$key\" $select>$value</option>";
-	};
-	return $output;
-};
-
 //Is ID numberic ?
 if ( is_numeric($id) ) {
 	// Get user from DB
@@ -66,7 +54,7 @@ if ( is_numeric($id) ) {
 		};
 	};
 
-	$roleselect = roleselect($rolearray,$role);
+	$roleselect = build_select($rolearray,$role);
 	$title = "> <a href=\"authgrp.php\">Auth Groups</a> > $name";
 	$contents = <<<EOD
 	$message

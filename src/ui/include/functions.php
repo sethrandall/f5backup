@@ -65,4 +65,18 @@ function password_func ($password,$password2) {
 	$hash = crypt($password, '$2a$12$' . $salt);
 	return $hash;
 };
+
+// Build  select options
+function build_select($rarray,$selected) {
+	$output = '';
+	foreach ($rarray as $key=>$value) {
+		$select = '';
+		// Make the users current role selected
+		if ($key == $selected) {
+			$select = 'selected';
+		}
+		$output .= "<option value=\"$key\" $select>$value</option>";
+	}
+	return $output;
+}
 ?>

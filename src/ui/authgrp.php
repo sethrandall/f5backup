@@ -15,6 +15,7 @@ $permissions = array(1);
 
 include("include/session.php");
 include("include/dbconnect.php");
+include("include/functions.php");
 
 // include common content
 include("include/header.php");

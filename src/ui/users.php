@@ -15,23 +15,11 @@ $permissions = array(1);
 
 include("include/session.php");
 include("include/dbconnect.php");
+include("include/functions.php");
 
 // include common content
 include("include/header.php");
 include("include/menu.php");
-
-// Build role select options
-function roleselect ($rarray,$selected) {
-	$output = '';
-	foreach ($rarray as $key=>$value) {
-		$select = '';
-		// Make the users current role selected
-		if ( $key == $selected ){$select = 'selected';} ;
-		$output .= "<option value=\"$key\" $select>$value</option>";
-	};
-	return $output;
-};
-
 
 // Is this the default page ?
 if ( isset($_GET["page"]) ) {

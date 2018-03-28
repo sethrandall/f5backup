@@ -81,19 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST["change"] == "Add") {
       $group_select .= "<option value=\"$id\">$name</option>";
    };
 
-   // Build role select options
-   function roleselect ($rarray,$selected) {
-      $output = '';
-      foreach ($rarray as $key=>$value) {
-         $select = '';
-         // Make the users current role selected
-         if ( $key == $selected ){$select = 'selected';} ;
-         $output .= "<option value=\"$key\" $select>$value</option>";
-      };
-      return $output;
-   };
 
-   $roleselect = roleselect($rolearray,$role);
+
+   $roleselect = build_select($rolearray,$role);
    $contents = <<<EOD
       <form action="authgrpmod.php?page=Add" method="post">
       <table class="pagelet_table">

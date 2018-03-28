@@ -1,5 +1,4 @@
 <?php
-include("include/functions.php");
 $contents = '';
 if (is_numeric($_GET["id"])) {
 
@@ -13,7 +12,7 @@ if (is_numeric($_GET["id"])) {
 	$name = $row['NAME'];
 	$created_by = $row['ADDED_BY'];
 	$date_added = date('Y-m-d H:i:s',$row['DATE_ADDED']);
-	$roleselect = roleselect($rolearray,$row['ROLE']);
+	$roleselect = build_select($rolearray,$row['ROLE']);
 
 	// Update post processing
 	if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST["change"] == "Update") {
@@ -47,7 +46,7 @@ if (is_numeric($_GET["id"])) {
 					$post ++;
 					
 					// Set new role for page refresh
-					$roleselect = roleselect($rolearray,$_POST["role"]);
+					$roleselect = build_select($rolearray,$_POST["role"]);
 			};
 
 			// Was anything updated -- Do something about errors
