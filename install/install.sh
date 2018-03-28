@@ -74,14 +74,17 @@ fi
 echo "Python modules are good!"
 
 # ------------ SQLite3 installation check -----------------------------------
-sql=`sqlite3 -version 2> /dev/null`
-if [ -z $sql ]; then
-   echo -e "\nSqllite not installed. Please install and try again.\n"
+echo -e "\nChecking for SQLite"
+SQL=$(sqlite3 -version 2> /dev/null | cut -d' ' -f-1)
+if [ -z "$SQL" ]; then
+   echo -e "\nSQLite not installed. Please install and try again.\n"
    exit
 fi
+echo -e " Version info - $SQL"
+
 # ------------ Apache installation check -----------------------------------
 echo -e "\nChecking for Apache."
-APACHE=$(apachectl -v 2> /dev/null | grep version | cut -d : -f2)
+APACHE=$(apachectl -v 2> /dev/null | sed q | cut -d ' ' -f3)
 if [ -z "$APACHE" ]; then 
    echo -e 'Apache not installed! Please install.'
    exit
@@ -92,25 +95,29 @@ echo -e " Version info - $APACHE"
 echo -e "\nChecking for mod_ssl in apache."
 SSL=$(apachectl -M 2> /dev/null | grep ssl)
 if [ -z "$SSL" ]; then 
-   echo -e " Mod SSL not installed! Please install."
+   echo -e " mod_ssl not installed! Please install."
    exit
 fi
-echo -e " Mod SSL is installed.\n"
+echo -e " mod_ssl is installed."
 
 #------------- Check for php ------------- 
-echo -e "Checking for PHP."
+echo -e "\nChecking for PHP."
 PHP=$(php -v 2> /dev/null | sed q | cut -d ' ' -f 1-2)
 if [ -z "$PHP" ]; then
    echo -e ' PHP is not installed! Please install.'
    exit
 fi
-echo -e " Version - $PHP"
+echo -e " Version info - $PHP"
+PHPVER=$(echo $PHP | cut -d ' ' -f 2 | cut -d . -f 1-2)
+
+#------------- Check for mod_php ------------- 
+echo -e "\nChecking for mod_php."
 MOD_PHP=$(apachectl -M 2> /dev/null | grep php)
 if [ -z "$MOD_PHP" ]; then 
-   echo -e ' Mod PHP not installed! Please install.'
+   echo -e ' mod_php not installed! Please install.'
    exit
 fi
-echo -e " Mod PHP is installed."
+echo -e " mod_php is installed."
 
 #------------- Check for PDO ------------- 
 echo -e "\nChecking for PHP PDO SQLite driver."
@@ -121,7 +128,6 @@ if [ -z "$PDO" ]; then
 fi
 echo -e " PDO_Sqlite is installed."
 
-
 # ------------- Create directories -------------
 echo -e "\nCreating directories to $BASE_DIR."
 mkdir $BASE_DIR
@@ -130,7 +136,6 @@ mkdir $BASE_DIR/db
 mkdir $BASE_DIR/.keystore
 mkdir $BASE_DIR/log
 mkdir $BASE_DIR/pid
-
 
 #------------- Copy files -------------
 echo -e "\nCopying files to $BASE_DIR."
@@ -146,7 +151,6 @@ passwd f5backup -l > /dev/null
 touch $BASE_DIR/.keystore/backup.key
 chmod 0600 $BASE_DIR/.keystore/backup.key
 openssl rand -base64 129 | tr -d '\n' > $BASE_DIR/.keystore/backup.key
-
 
 # ------------- Create new SSL certificate -------------
 echo -e "\nCreating new SSL certificate."
@@ -239,6 +243,4 @@ chkconfig backupapi on
 chkconfig httpd on
 
 #********************** ALL DONE ***********************
-echo -e "\nInstallation completed."   
-
-
+echo -e "\nInstallation completed."
