@@ -67,15 +67,15 @@ function password_func ($password,$password2) {
 };
 
 // Build  select options
-function build_select($rarray,$selected) {
+function build_select($rarray,$selected="") {
 	$output = '';
 	foreach ($rarray as $key=>$value) {
 		$select = '';
 		// Make the users current role selected
 		if ($key == $selected) {
-			$select = 'selected';
+			$select = ' selected';
 		}
-		$output .= "<option value=\"$key\" $select>$value</option>";
+		$output .= "<option value=\"$key\"$select>$value</option>";
 	}
 	return $output;
 }
