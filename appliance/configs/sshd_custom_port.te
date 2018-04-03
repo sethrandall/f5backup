@@ -1,0 +1,11 @@
+
+module sshd_custom_port 1.0;
+
+require {
+	type sshd_t;
+	type jabber_client_port_t;
+	class tcp_socket name_bind;
+}
+
+#============= sshd_t ==============
+allow sshd_t jabber_client_port_t:tcp_socket name_bind;
