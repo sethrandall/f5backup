@@ -26,6 +26,17 @@ IP_FLAG=0
 NTP_FLAG=0
 TIME_FLAG=0
 
+### nmcli expects netmasks as /xx
+### conversion function from https://forums.gentoo.org/viewtopic-p-6771484.html?sid=8a49a6acc7881b7106df1712606dcd0b#6771484
+function mask2cdr () 
+{ 
+   # Assumes there's no "255." after a non-255 byte in the mask 
+   local x=${1##*255.} 
+   set -- 0^^^128^192^224^240^248^252^254^ $(( (${#1} - ${#x})*2 )) ${x%%.*} 
+   x=${1%%$3*} 
+   echo $(( $2 + (${#x}/4) )) 
+}
+
 # Check for first boot file
 if [ -e "/opt/appliance/firstboot" ]; then
 	source /opt/appliance/include/firstboot.sh
@@ -61,6 +72,9 @@ else
 
 fi
 
+# Find the name of the first interface on the system
+INTUUID=$(nmcli -t con show | cut -d: -f2-2)
+
 # Set IP address and gateway 
 if [ $IP_FLAG == 1 ] ; then
 	echo 
@@ -68,35 +82,31 @@ if [ $IP_FLAG == 1 ] ; then
 	read -e -p "Please enter the subnet mask (e.g. 255.255.255.0): " NETMASK
 	read -e -p "Please enter the default gateway: " GATEWAY
 
-	sudo bash -c "echo -e \"DEVICE=eth0
-TYPE=Ethernet
-ONBOOT=yes
-NM_CONTROLLED=yes
-BOOTPROTO=none
-IPADDR=$IPADDR
-NETMASK=$NETMASK
-GATEWAY=$GATEWAY\" > /etc/sysconfig/network-scripts/ifcfg-eth0"
+	# Convert the netmask to /xx notation
+	CDR=$(mask2cdr $NETMASK)
 
+	# Set the interface
+	sudo nmcli con mod uuid $INTUUID ipv4.addresses $IPADDR/$CDR gw4 $GATEWAY ipv4.method manual
+
+	if [ $? -ne 0 ]; then
+		echo -e "An error occurred configuring the network interface"
+	fi
 fi
 
 # Set DNS servers and domain name
 if [ $DNS_FLAG == 1 ] ; then
-	echo
-	read -e -p "Please enter the domain name suffix (e.g. acme.net): " DOMAIN
-	sudo bash -c "echo -e \"domain $DOMAIN\" > /etc/resolv.conf"
+	echo 
+	read -e -p "Please enter a space separated domain search list (probably just your domain name): " DOMAIN
+	sudo nmcli con mod uuid $INTUUID ipv4.dns-search "$DOMAIN"
 	read -e -p "Please enter a space separated list of DNS servers: " DNS
-	for i in $DNS; do
-		sudo bash -c "echo -e \"nameserver $i\" >> /etc/resolv.conf"
-	done
+	sudo nmcli con mod uuid $INTUUID ipv4.dns "$DNS"
 fi
 
 # Set the hostname
 if [ $HOSTNAME_FLAG == 1 ] ; then
 	echo 
-	read -e -p "Please enter the device hostname: " HOSTNAME
-	sudo bash -c "echo -e \"NETWORKING=yes
-HOSTNAME=$HOSTNAME\" > /etc/sysconfig/network"
-	sudo hostname $HOSTNAME
+	read -e -p "Please enter the device hostname (i.e. f5backup.example.com): " HOSTNAME
+	sudo hostnamectl set-hostname $HOSTNAME
 fi
 
 # Set NTP
@@ -137,7 +147,7 @@ if [ "$FIRST_BOOT" != 1 ] ; then
 	fi
 
 	# If any networking config then restart networking
-	if [[ $IP_FLAG == 1 || $HOSTNAME_FLAG == 1 ]] ; then
+	if [[ $IP_FLAG == 1 || $HOSTNAME_FLAG == 1 || $DNS_FLAG == 1 ]] ; then
 		echo "Restarting Networking."
 		sudo service network restart
 	fi
@@ -158,4 +168,3 @@ else
 		echo "Please reboot before you use system."
 	fi
 fi
-
