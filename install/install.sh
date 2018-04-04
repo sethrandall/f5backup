@@ -38,7 +38,7 @@ if [ "$PVER" != "yes" ]; then
 fi
 
 # ------------ Check for python modules -------------
-echo "Checking for python for required modules -"
+echo "Checking python for required modules:"
 
 # Put python modules in this list
 MODULES="
@@ -90,6 +90,7 @@ if [ -z "$APACHE" ]; then
    exit
 fi
 echo -e " Version info - $APACHE"
+APACHEVER=$(echo $APACHE | cut -d/ -f2 | cut -d. -f1-2)
 
 #------------- Check for mod_ssl ------------- 
 echo -e "\nChecking for mod_ssl in apache."
@@ -137,7 +138,7 @@ mkdir $BASE_DIR/.keystore
 mkdir $BASE_DIR/log
 mkdir $BASE_DIR/pid
 
-#------------- Copy files -------------
+#------------- Copy web files -------------
 echo -e "\nCopying files to $BASE_DIR."
 cp -R src/* $BASE_DIR
 
@@ -152,6 +153,9 @@ touch $BASE_DIR/.keystore/backup.key
 chmod 0600 $BASE_DIR/.keystore/backup.key
 openssl rand -base64 129 | tr -d '\n' > $BASE_DIR/.keystore/backup.key
 
+# ------------- Enter the install ----------------------
+cd install
+
 # ------------- Create new SSL certificate -------------
 echo -e "\nCreating new SSL certificate."
 echo > $BASE_DIR/.keystore/f5backup.key
@@ -165,10 +169,10 @@ openssl req -x509 -nodes -config openssl.cnf -days 3650 \
 
 #------------- apache config -------------
 cp $APACHE_CONF $APACHE_CONF.orig
-cp httpd.conf $APACHE_CONF
+cp httpd-$APACHEVER.conf $APACHE_CONF
 
 cp $PHP_CONF $PHP_CONF.orig
-cp php.ini $PHP_CONF
+cp php-$PHPVER.ini $PHP_CONF
 
 #------------- Create DB -------------
 echo -e "\nCreating DB files."
@@ -220,7 +224,7 @@ chmod 0770 $BASE_DIR/ui/images
 
 #------------- SELinux tag for apache -------------
 echo -e "\nSetting SELinux permissions."
-chcon -R --type=httpd_sys_content_t $BASE_DIR/db
+chcon -R --type=httpd_sys_content_rw_t $BASE_DIR/db
 chcon -R --type=httpd_sys_content_t $BASE_DIR/devices
 chcon -R --type=httpd_sys_content_t $BASE_DIR/ui 
 chcon -R --type=httpd_sys_content_t $BASE_DIR/redirect
@@ -229,8 +233,8 @@ setsebool -P httpd_can_network_connect 1
 
 #------------- Inint scripts -------------------
 echo -e "\nCopying init scripts."
-cp backupapi /etc/init.d/backupapi
-cp f5backup /etc/init.d/f5backup
+cp backupapi.sh /etc/init.d/backupapi
+cp f5backup.sh /etc/init.d/f5backup
 
 chmod u+x /etc/init.d/backupapi
 chmod u+x /etc/init.d/f5backup
@@ -243,4 +247,9 @@ chkconfig backupapi on
 chkconfig httpd on
 
 #********************** ALL DONE ***********************
-echo -e "\nInstallation completed."
+echo -e "\
+Installation completed.
+
+If iptables is enabled, rules may need to be added for
+web services.
+"
