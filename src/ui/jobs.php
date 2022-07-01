@@ -53,7 +53,13 @@ if ( $main_page ) {
 		$complete = "No";
 		if ($row['COMPLETE'] == 1) {$complete = "Yes";};
 		$device_w_errors = explode(' ', $row['DEVICE_W_ERRORS']);
-		$log_file = htmlspecialchars(file_get_contents("../log/$date-backup.log"));
+		$log_file_name = "../log/$date-backup.log";
+
+		if (file_exists($log_file_name)) {
+			$log_file = htmlspecialchars(file_get_contents("../log/$date-backup.log"));
+		} else {
+			$log_file = "Log file " . htmlspecialchars($log_file_name) . " is missing";
+		}
 
 		// Get device ID for hyperlink to device w/ errors
 		$error_list = '';

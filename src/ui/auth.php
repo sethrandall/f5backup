@@ -56,6 +56,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 	// Are there any updates ?
 	if ( strlen($updates) > 0) {
 		$message = "<p>The following items have been updated: $updates</p>";
+	} else {
+		$fields = array('mode','tls','domain','server1','server2','authacct');
+
+		foreach($fields as $field) {
+			if (isset($_POST[$field])) {
+				$$field = $_POST[$field];
+			}
+		}
 	};
 };
 

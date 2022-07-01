@@ -33,16 +33,16 @@ $ucs = $setarray['UCS_ARCHIVE_SIZE'];
 $log = $setarray['LOG_ARCHIVE_SIZE'];
 $time = $setarray['BACKUP_TIME']; 
 // Get minutes remainder minutes
-$time_min = $setarray['BACKUP_TIME'] % 60; 
+$time_min = str_pad($setarray['BACKUP_TIME'] % 60, 2, 0, STR_PAD_LEFT);
 // Get hours - remainder minutes
-$time_hr =  ($setarray['BACKUP_TIME'] - $time_min)/60;
+$time_hr =  str_pad(($setarray['BACKUP_TIME'] - $time_min)/60, 2, 0, STR_PAD_LEFT);
 
 // Get username 
 $sth = $dbcore->prepare("SELECT NAME FROM BACKUP_USER WHERE ID = 0");
 $sth->execute();
 $user = $sth->fetchColumn();
-$message = '';
 
+$message = '';
 
 // Is this a POST ?
 if ($_SERVER['REQUEST_METHOD'] == "POST") {

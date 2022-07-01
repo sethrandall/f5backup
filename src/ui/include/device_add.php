@@ -10,15 +10,21 @@ function bad_chars ($input) {
 	};
 };
 
+$name = '';
+$ip = '';
+$dns = false;
+
 // If post then update DB
 if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST["change"] == "Add") {
 	// If input contains bad chars then give errors
-	if ( bad_chars($_POST["name"]) || bad_chars($_POST["ip"]) ) {
+	$name = $_POST["name"];
+	$ip = $_POST["ip"];
+	$dns = isset($_POST["dns"]);
+
+	if ( bad_chars($name) || bad_chars($ip)) {
 		$contents .= "Device name or IP address can't contain spaces or the following special characters: ' \" = % ; < > --";
 	} else {
-		$name = $_POST["name"];
-		$ip = $_POST["ip"];
-		if (isset($_POST["dns"])) { $ip = "NULL"; };
+		if ($dns) { $ip = "NULL"; };
 			
 		// Are there any blank fields ?
 		if ($name != "" && $ip != "") {
@@ -37,26 +43,30 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST["change"] == "Add") {
 			$contents .= "<p>One or more fields where blank.</p>";
 		};
 	};
+} 
+if ($dns) {
+	$checked = ' checked';
 } else {
-	$contents = <<<EOD
-		<form action="devicemod.php?page=Add" method="post">
-		<table class="pagelet_table">
-			<tr class="pglt_tb_hdr"><td colspan="2">Add New Device</td></tr>
-			<tr class="odd">
-				<td>Device Name</td>
-				<td><input type="text" name="name" class="input" maxlength="50"></td>
-			</tr>
-			<tr class="even">
-				<td>Use DNS name ?</td>
-				<td><input type="checkbox" name="dns" value="NULL"></td>
-			</tr>
-			<tr class="odd">
-				<td>IP Address</td>
-				<td><input type="text" name="ip" id="ip" class="input" maxlength="20"></td>
-			</tr>
-		</table>
-		<input type="submit" name="change" value="Add">
-		</form>\n
+	$checked = '';
+}
+$contents .= <<<EOD
+	<form action="devicemod.php?page=Add" method="post">
+	<table class="pagelet_table">
+		<tr class="pglt_tb_hdr"><td colspan="2">Add New Device</td></tr>
+		<tr class="odd">
+			<td>Device Name</td>
+			<td><input type="text" name="name" class="input" maxlength="50" value="$name"></td>
+		</tr>
+		<tr class="even">
+			<td>Use DNS name ?</td>
+			<td><input type="checkbox" name="dns" value="NULL"$checked></td>
+		</tr>
+		<tr class="odd">
+			<td>IP Address</td>
+			<td><input type="text" name="ip" id="ip" class="input" value="$ip"></td>
+		</tr>
+	</table>
+	<input type="submit" name="change" value="Add">
+	</form>\n
 EOD;
-};
 ?>

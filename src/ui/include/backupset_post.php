@@ -84,8 +84,8 @@ try {
    // will get thrown out (never makes it here)
    $ucs = intval($_POST["ucs"]);
    $log = intval($_POST["log"]);
-   $time_min = intval($_POST["time_min"]); 
-   $time_hr = intval($_POST["time_hr"]);
+   $time_min = str_pad(intval($_POST["time_min"]),2,'0',STR_PAD_LEFT); 
+   $time_hr = str_pad(intval($_POST["time_hr"]),2,'0',STR_PAD_LEFT);
    $user = $_POST["user" ];
 
    $dbcore->commit();

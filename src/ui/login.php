@@ -159,10 +159,10 @@ if (isset($login) ) {
       <div id="form">
          <form action="login.php<?php echo $URL?>" method="post">
          <p>Username<br />
-         <input type="text" name="username" class="input" autocomplete="off" maxlength="20">
+         <input type="text" name="username" class="input" autocomplete="off">
          </p>
          <p>Password<br />
-         <input type="password" name="password" class="input" maxlength="30">
+         <input type="password" name="password" class="input">
          </p>
          <input type="submit" name="submit" value="Log In">
          </form>

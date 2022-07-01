@@ -42,6 +42,6 @@ foreach ($sth->fetchAll() as $role) {
 		<div id="role">User Role: <?php echo  $rolearray[$_SESSION['role']] ?></div>
 		<div id="ip">User IP: <?php echo  $_SERVER['REMOTE_ADDR'] ?></div>
 		<div id="date">Date: <?php echo  date('Y-m-d',time()) ?></div>
-		<div id="time">Time: <?php echo  date('H:i',time()) ?></div>
+		<div id="time">Time: <?php echo  date('H:i T',time()) ?></div>
 	</td>
 </tr>
