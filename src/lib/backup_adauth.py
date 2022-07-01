@@ -26,7 +26,7 @@ def adauthenicate(user,passwd):
    '''
    Config backup function for authenticating user in active directory
    
-   @param user:   Username you wish to authenicate
+   @param user:   Username you wish to authenticate
    @param passwd: Password of user
    @param log:    Log object
    
@@ -64,9 +64,9 @@ def adauthenicate(user,passwd):
       #Convert result into dict
       bind = {'acct' : bind[0],'passwd' : bind[1],'domain' : bind[2]}
    else:
-      authlog.error('No credentials avilable in DB.')
+      authlog.error('No credentials available in DB.')
       authlog.close()
-      return [False, 'No credentials avilable in DB.']
+      return [False, 'No credentials available in DB.']
    
    #Decrypt password 
    try:
@@ -101,8 +101,8 @@ def adauthenicate(user,passwd):
             continue
          
          # If this server works do auth and return result
-         authlog.debug('Authenicating to server %s.' % server['server'])
-         authlog.info('Authenicating user %s.' % user)
+         authlog.debug('Authenticating to server %s.' % server['server'])
+         authlog.info('Authenticating user %s.' % user)
          auth = adauth.ADAuth(
                      server['server'],
                      bind['acct'],
@@ -130,6 +130,6 @@ def adauthenicate(user,passwd):
          #Skip to next device
          continue
    else:
-      authlog.error('No AD servers avilable.')
+      authlog.error('No AD servers available.')
       authlog.close()
-      return [False, 'No auth servers avilable.']
+      return [False, 'No auth servers available.']

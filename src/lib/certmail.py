@@ -152,13 +152,13 @@ class CertReport(object):
       seven_to_now =  self._get_certs(dbc.fetchall())
       
       # Get expired certs
-      self.log.debug('Email prepare, getting expireed certs.')
+      self.log.debug('Email prepare, getting expired certs.')
       dbc.execute('''SELECT ID,NAME,DEVICE,SUB_CN,EXPIRE FROM CERTS WHERE 
                      EXPIRE < ?  AND ACK = 0 ORDER BY EXPIRE''', (self.now,) )
       expired = self._get_certs(dbc.fetchall())
       
       # Get expired and expiring with in 30 days that have been acked
-      self.log.debug('Email prepare, getting acked certs.')
+      self.log.debug('Email prepare, getting acknowledged certs.')
       dbc.execute('''SELECT ID,NAME,DEVICE,SUB_CN,EXPIRE FROM CERTS WHERE 
                      EXPIRE < ? AND ACK = 1 ORDER BY EXPIRE''', (self.thirty_days,) )
       acked = self._get_certs(dbc.fetchall())

@@ -90,7 +90,7 @@ Encryption function - encrypt string using key from file
 @app.route('/api/v1.0/adauth/authenticate/', methods = ['POST'])
 def adauth():
    '''
-   aduth function - authenticate user against AD.
+   adauth function - authenticate user against AD.
    
    POST JSON -
    @param user:   The username string to authenticate. 
@@ -100,7 +100,7 @@ def adauth():
    @param result:    A True/False string for user credential validity.
    @param memberOf:  An array of users group memberships if auth passed.
    
-   if False instead of memberof -
+   if False instead of memberOf -
    @param error:  A string containing the error of why the user 
    '''
    #Input validation

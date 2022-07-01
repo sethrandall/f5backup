@@ -36,7 +36,7 @@ def file_download(bigip_obj,src_file,dst_file,chunk_size,buff = 1048576):
    '''
 file_download - Download file from F5 via iControl
 Usage - file_download(bigip_obj,src_file,dst_file,chunk_size,buff = n)
-    @param bigip_obj: the bigsuds icontol object
+    @param bigip_obj: the bigsuds iControl object
     @param src_file: file on F5
     @paramdst_file: local file
     @paramchunk_size: download size for each chunk
@@ -44,7 +44,7 @@ Usage - file_download(bigip_obj,src_file,dst_file,chunk_size,buff = n)
 Returns - returns file size in bytes if job completed
 Raises exceptions if job failed
    '''
-   # Set begining vars
+   # Set beginning vars
    foffset = 0
    timeout_error = 0 
    fbytes = 0

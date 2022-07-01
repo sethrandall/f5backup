@@ -117,7 +117,7 @@ class f5backup():
                f5backup_lib.main()
             except f5backup_lib.BackupError as e:
                # If there is an error skip all else
-               self.log.error('An error has occured with the backup job - %s' % e)
+               self.log.error('An error has occurred with the backup job - %s' % e)
                self.log.error('Please fix issue before resuming.')
                time.sleep(61)
                continue
