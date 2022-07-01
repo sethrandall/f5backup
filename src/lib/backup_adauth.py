@@ -11,16 +11,16 @@ import m2secret
 import logsimple 
 
 # Default action for uncaught errors
-def execption_hook(type,value,tb):
+def exception_hook(type,value,tb):
    crash_time = int(time.time())
-   exception = open('/opt/f5backup/log/auth.trace-%d' % crash_time,'w',0)
+   exception = open('/opt/f5backup/log/auth.trace-%d' % crash_time,'w')
    exception.write('Traceback (most recent call last):\n')
    exception.write( ''.join(traceback.format_tb(tb)) )
    exception.write( type.__name__ + ': ' + str(value) + '\n')
    exception.close()
    exit()
 
-sys.excepthook = execption_hook
+sys.excepthook = exception_hook
 
 def adauthenicate(user,passwd):
    '''
@@ -53,7 +53,7 @@ def adauthenicate(user,passwd):
       e = sys.exc_info()[1]
       authlog.critical('DB connect failed - %s' % e)
       authlog.close()
-      raise StandardError(e)
+      raise Exception(e)
    
    # Get log level from DB and reset in logging object
    dbc.execute("SELECT LEVEL FROM LOGGING WHERE NAME = 'AUTH'")
@@ -81,7 +81,7 @@ def adauthenicate(user,passwd):
       e = sys.exc_info()[1]
       authlog.critical('Can\'t get credentials from DB - %s' % e)
       authlog.close()
-      raise StandardError(e)
+      raise Exception(e)
    
    # Retrieve list of servers from DB
    authlog.debug('Getting list of servers from DB.')
