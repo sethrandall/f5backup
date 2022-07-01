@@ -12,16 +12,16 @@ import cert_rec
 import certmail
 
 # Default action for uncaught errors
-def execption_hook(type,value,tb):
+def exception_hook(type,value,tb):
    crash_time = int(time.time())
-   exception = open('/opt/f5backup/log/backupd.trace-%d' % crash_time,'w',0)
+   exception = open('/opt/f5backup/log/backupd.trace-%d' % crash_time,'w')
    exception.write('Traceback (most recent call last):\n')
    exception.write( ''.join(traceback.format_tb(tb)) )
    exception.write( type.__name__ + ': ' + str(value) + '\n')
    exception.close()
    exit()
 
-sys.excepthook = execption_hook
+sys.excepthook = exception_hook
 
 
 class f5backup():
@@ -80,7 +80,7 @@ class f5backup():
          self.log.setlevel('INFO')
       except:
          e = sys.exc_info()[1]
-         print 'Unable to open logfile - %s' % e
+         print ('Unable to open logfile - %s' % e)
          raise
       
       # Get log level from DB and reset in logging object
@@ -91,7 +91,7 @@ class f5backup():
          dbc.execute("SELECT LEVEL FROM LOGGING WHERE NAME = 'BACKUPD'")
       except:
          e = sys.exc_info()[1]
-         print 'Error: Cant open DB - %s' % e
+         print ('Error: Cannot open DB - %s' % e)
          raise
       self.log.setlevel( str(dbc.fetchone()[0]) )
       db.close()

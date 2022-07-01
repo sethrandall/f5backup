@@ -106,7 +106,7 @@ class LogSimple(object):
             # pass exception on for all other errors
             raise 
       
-      self._logfile = open(self.filename,'a',0)
+      self._logfile = open(self.filename,'a')
    
    def close(self):
       '''
@@ -190,7 +190,9 @@ class LogSimple(object):
          
          # Write to logfile
          self._logfile.write(log_message)
-   
+         self._logfile.flush()
+         os.fsync(self._logfile.fileno())
+
    # Logging events at levels
    def debug(self,message):
       self._write(message,10,'DEBUG')

@@ -346,8 +346,8 @@ def main():
       log.debug('Connecting to %s.' % dev['name'])
       # Create device folder if it does not exist
       try:
-         os.mkdir('%s/devices/%s' % (sys.path[0],dev['name']),0775)
-      except OSError, e:
+         os.mkdir('%s/devices/%s' % (sys.path[0],dev['name']),0o775)
+      except OSError as e:
          # If error is not from existing file errno 17
          if e.errno != 17: 
             log.error('Cannot create device archive folder for %s - %s. Skipping to next device' % 

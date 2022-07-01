@@ -50,7 +50,7 @@ Raises exceptions if job failed
    fbytes = 0
    
    # Open temp file for writing, default buffer size is 1MB
-   f_dst = open(dst_file + '.tmp','w',buff)
+   f_dst = open(dst_file + '.tmp','wb',buff)
    
    # Main loop
    while True:

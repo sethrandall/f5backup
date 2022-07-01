@@ -125,7 +125,7 @@ class CertReconcile(object):
          dbc = db.cursor()
       except:
          e = sys.exc_info()[1]
-         print e
+         print (e)
          self.log.critical('Certs reconcile - %s' % e)
          return 
       
